@@ -1,0 +1,41 @@
+tag,count,attrs
+a,54,"['aria-label', 'class', 'data-anchor', 'data-auto-recognition', 'data-item-label', 'data-testid', 'href', 'rel', 'tabindex', 'target']"
+body,1,['class']
+br,10,['class']
+button,4,"['aria-disabled', 'aria-label', 'aria-live', 'class', 'data-focusable-focus', 'data-focusable-focus-visible', 'data-fullwidth', 'data-hook', 'data-mobile', 'style', 'tabindex', 'type']"
+defs,14,['id']
+div,737,"['aria-expanded', 'aria-haspopup', 'aria-hidden', 'aria-label', 'aria-live', 'class', 'data-disabled', 'data-empty-state', 'data-error', 'data-field-type', 'data-focused', 'data-hash', 'data-hook', 'data-id', 'data-idx', 'data-item-label', 'data-key', 'data-media-height-override-type', 'data-media-position-override', 'data-mesh-id', 'data-motion-part', 'data-scroll-base', 'data-scroll-top', 'data-semantic-classname', 'data-success', 'data-testid', 'data-theme', 'dir', 'id', 'role', 'style', 'tabindex']"
+fieldset,1,['class']
+footer,1,"['class', 'id', 'tabindex']"
+form,1,"['aria-label', 'class', 'data-hook', 'id']"
+g,14,[]
+h1,5,"['class', 'style']"
+h2,16,"['class', 'style']"
+h3,4,"['class', 'style']"
+h4,4,"['class', 'style']"
+h6,3,"['class', 'style']"
+head,1,[]
+header,1,"['class', 'id', 'tabindex']"
+html,1,['lang']
+img,56,"['alt', 'class', 'data-hook', 'data-idx', 'fetchpriority', 'height', 'id', 'loading', 'sizes', 'src', 'srcset', 'style', 'width']"
+input,4,"['aria-invalid', 'aria-label', 'class', 'data-empty-state', 'data-error', 'data-success', 'data-theme', 'id', 'required', 'type', 'value']"
+label,5,"['class', 'for', 'id']"
+li,20,"['aria-current', 'class', 'data-is-current', 'data-item-depth', 'data-testid', 'id']"
+link,10,"['as', 'crossorigin', 'href', 'id', 'position', 'rel', 'sizes', 'type']"
+main,1,"['class', 'data-main-content', 'id', 'tabindex']"
+meta,24,"['charset', 'content', 'http-equiv', 'id', 'name', 'property']"
+nav,1,"['aria-label', 'class']"
+p,46,"['class', 'dir', 'id', 'style']"
+path,17,"['d', 'data-color', 'fill']"
+picture,33,[]
+script,67,"['async', 'crossorigin', 'data-chunk', 'data-url', 'defer', 'id', 'nomodule', 'onload', 'src', 'type']"
+section,15,"['class', 'data-block-level-container', 'id', 'tabindex']"
+source,33,"['srcset', 'type']"
+span,213,"['aria-hidden', 'class', 'data-testid', 'style']"
+strong,1,['style']
+style,40,"['data-href', 'data-url', 'id', 'rel']"
+svg,18,"['aria-hidden', 'aria-label', 'data-bbox', 'data-dom-store', 'data-type', 'fill', 'height', 'preserveaspectratio', 'role', 'style', 'viewbox', 'width', 'xmlns']"
+textarea,1,"['aria-invalid', 'aria-label', 'class', 'data-hook', 'id', 'placeholder']"
+title,1,[]
+ul,5,"['aria-label', 'class']"
+wow-image,1,"['class', 'data-bg-effect-name', 'data-has-ssr-src', 'data-image-info', 'data-motion-part', 'id']"

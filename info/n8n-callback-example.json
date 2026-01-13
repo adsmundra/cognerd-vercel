@@ -1,0 +1,17 @@
+{
+  "method": "POST",
+  "url": "https://YOUR_APP_DOMAIN/api/files/callback",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "jobId": "{{ $json.jobId }}",
+    "status": "completed",
+    "result": {
+      "delivered": true,
+      "details": "Files sent to {{ $json.user.email }}"
+    },
+    "timestamp": "={{ Date.now() }}",
+    "signature": "={{ $json.signatureOut }}"
+  }
+}

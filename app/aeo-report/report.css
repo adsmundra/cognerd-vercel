@@ -1,0 +1,78 @@
+.aeo-report-content {
+  font-family: 'Inter', sans-serif;
+  color: #334155;
+}
+.aeo-report-content h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  line-height: 1.2;
+}
+.aeo-report-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.aeo-report-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #334155;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.aeo-report-content p {
+  margin-bottom: 1.25rem;
+  line-height: 1.75;
+}
+.aeo-report-content ul, .aeo-report-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+.aeo-report-content li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+}
+.aeo-report-content strong {
+  font-weight: 600;
+  color: #0f172a;
+}
+.aeo-report-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+.aeo-report-content th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.aeo-report-content td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.aeo-report-content tr:last-child td {
+  border-bottom: none;
+}
+.aeo-report-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.aeo-report-content blockquote {
+  border-left: 4px solid #cbd5e1;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #64748b;
+  margin: 1.5rem 0;
+}

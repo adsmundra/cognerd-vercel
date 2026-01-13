@@ -1,0 +1,185 @@
+/* ===============================
+Global Layout
+=============================== */
+body {
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f6f9;
+    color: #333;
+}
+
+/* ===============================
+Header
+=============================== */
+header {
+    background: #1877f2; /* Facebook-blue style */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+header p {
+    margin: 5px 0 0;
+    font-size: 0.95em;
+    color: #e4e6eb;
+}
+
+/* ===============================
+Container
+=============================== */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* ===============================
+Top Metrics Dashboard
+=============================== */
+.top-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+.metric {
+    flex: 1 1 200px;
+    min-width: 180px;
+    background: linear-gradient(135deg,#3498db,#2980b9);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+.metric:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+.metric h3 {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+.metric span {
+    font-size: 1.6em;
+    font-weight: bold;
+}
+
+/* ===============================
+Cards (Sections)
+=============================== */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+.card h2 {
+    margin-top: 0;
+    font-size: 1.4em;
+    color: #2c3e50;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 8px;
+}
+.summary {
+    font-size: 1.05em;
+    margin-bottom: 10px;
+}
+
+/* ===============================
+Badges
+=============================== */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: white;
+}
+.badge.green { background: #27ae60; }
+.badge.red { background: #e74c3c; }
+.badge.orange { background: #f39c12; }
+.badge.gray { background: #7f8c8d; }
+
+/* ===============================
+Flags / Highlights
+=============================== */
+.redflag {
+    color: #e74c3c;
+    font-weight: bold;
+}
+.good {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+/* ===============================
+Tables
+=============================== */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 0.9em;
+    overflow-x: auto;
+    display: block;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+th {
+    background: #3498db;
+    color: white;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+tr:nth-child(even) { background: #f2f4f7; }
+
+/* ===============================
+Key Recommendations
+=============================== */
+.card ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+.card li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+/* ===============================
+Responsive
+=============================== */
+@media (max-width: 768px) {
+    .top-metrics {
+        flex-direction: column;
+        align-items: center;
+    }
+    .metric { min-width: 80%; }
+}
+/* Align charts in one row and size them nicely */
+.card img {
+  width: 30%;              /* make each chart smaller */
+  margin: 0 1%;            /* small horizontal spacing */
+  display: inline-block;   /* line up horizontally */
+  vertical-align: top;     /* keep alignment tidy */
+}
+
+.card img + p {
+  display: none;           /* optional: hide extra “Readiness radar:” text labels */
+}
