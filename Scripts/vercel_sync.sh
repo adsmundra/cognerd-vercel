@@ -3,7 +3,7 @@
 SOURCE_DIR="/Users/aman/Welzin/Dev/cognerd"
 TARGET_DIR="/Users/aman/Welzin/Dev/cognerd-vercel"
 
-# credzin git push
+# Cognerd git push
 git add .
 COMMIT_MESSAGE="Aman:Code Edits & Features: $(date '+%Y-%m-%d %H:%M:%S')"
 git commit -m "$COMMIT_MESSAGE"
