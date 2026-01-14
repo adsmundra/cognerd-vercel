@@ -17,6 +17,9 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const brandFilter = searchParams.get('brand');
 
+    const superuserEmails = (process.env.SUPERUSER_EMAILS || '').split(',').map(e => e.trim());
+    const isSuperuser = session.user.email && superuserEmails.includes(session.user.email);
+
     let query = db
       .select({
         id: files.id,
@@ -25,7 +28,7 @@ export async function GET(req: NextRequest) {
         createdAt: files.createdAT,
       })
       .from(files)
-      .where(eq(files.userId, session.user.id))
+      .where(isSuperuser ? undefined : eq(files.userId, session.user.id))
       .orderBy(desc(files.createdAT))
       .$dynamic();
 
@@ -38,7 +41,12 @@ export async function GET(req: NextRequest) {
           createdAt: files.createdAT,
         })
         .from(files)
-        .where(and(eq(files.userId, session.user.id), eq(files.brand, brandFilter)))
+        .where(
+          and(
+            isSuperuser ? undefined : eq(files.userId, session.user.id),
+            eq(files.brand, brandFilter)
+          )
+        )
         .orderBy(desc(files.createdAT))
         .$dynamic();
     }

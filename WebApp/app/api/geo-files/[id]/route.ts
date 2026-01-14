@@ -22,10 +22,17 @@ export async function GET(
       return NextResponse.json({ error: 'File ID is required' }, { status: 400 });
     }
 
+    const superuserEmails = (process.env.SUPERUSER_EMAILS || '').split(',').map(e => e.trim());
+    const isSuperuser = session.user.email && superuserEmails.includes(session.user.email);
+
     const [file] = await db
       .select()
       .from(files)
-      .where(and(eq(files.id, id), eq(files.userId, session.user.id)))
+      .where(
+        isSuperuser
+          ? eq(files.id, id)
+          : and(eq(files.id, id), eq(files.userId, session.user.id))
+      )
       .limit(1);
 
     if (!file) {

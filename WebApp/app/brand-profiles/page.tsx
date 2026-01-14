@@ -17,6 +17,7 @@ interface BrandProfile {
   favicon?: string;
   description?: string;
   isScraped?: boolean;
+  creatorEmail?: string;
 }
 
 export default function BrandProfilesPage() {
@@ -304,6 +305,11 @@ export default function BrandProfilesPage() {
                       <Building2 className="w-3.5 h-3.5" />
                       {brand.industry}
                     </p>
+                    {brand.creatorEmail && (
+                      <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 mt-2">
+                        Created by: {brand.creatorEmail}
+                      </span>
+                    )}
                   </div>
                   
                   <div className="flex flex-wrap gap-2">

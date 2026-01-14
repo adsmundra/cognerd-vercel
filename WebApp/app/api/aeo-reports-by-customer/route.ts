@@ -42,10 +42,16 @@ export async function GET(request: NextRequest) {
     console.log('[AEO Reports] User ID:', userId, 'Email:', userEmail, 'Customer Name:', customerName);
 
     // Build auth condition: match by userId OR userEmail
-    const authCondition = or(
-      userId ? eq(aeoReports.userId, userId) : undefined,
-      userEmail ? eq(aeoReports.userEmail, userEmail) : undefined
-    );
+    // Check for superuser access
+    const superuserEmails = (process.env.SUPERUSER_EMAILS || '').split(',').map(e => e.trim());
+    const isSuperuser = userEmail && superuserEmails.includes(userEmail);
+
+    const authCondition = isSuperuser 
+      ? undefined // No user filter for superusers
+      : or(
+          userId ? eq(aeoReports.userId, userId) : undefined,
+          userEmail ? eq(aeoReports.userEmail, userEmail) : undefined
+        );
 
     // Fetch AEO reports for this customer name and user
     // Using ilike for case-insensitive matching of customer name
