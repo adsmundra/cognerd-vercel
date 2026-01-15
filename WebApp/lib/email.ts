@@ -1,42 +1,58 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-// Initialize Resend - you'll need to add RESEND_API_KEY to your .env.local
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const gmailUser = process.env.GMAIL_USER;
+const gmailPass = process.env.GMAIL_PASS;
 
-export const sendEmail = async ({ 
-  to, 
-  subject, 
-  text, 
-  html 
-}: { 
-  to: string; 
-  subject: string; 
-  text?: string; 
-  html?: string; 
+const transporter = gmailUser && gmailPass
+  ? nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: gmailUser,
+        pass: gmailPass,
+      },
+    })
+  : null;
+
+export const sendEmail = async ({
+  to,
+  subject,
+  text,
+  html,
+}: {
+  to: string;
+  subject: string;
+  text?: string;
+  html?: string;
 }) => {
-  // In development without API key, just log to console
-  if (!process.env.RESEND_API_KEY || !resend) {
+  if (!transporter) {
     console.log('📧 Email would be sent:');
     console.log('To:', to);
     console.log('Subject:', subject);
     console.log('Content:', html || text);
-    console.log('\n⚠️  Add RESEND_API_KEY to .env.local to send real emails');
+    console.log('\n⚠️  Add GMAIL_USER/GMAIL_PASS to .env.local to send real emails');
     return { id: 'dev-email' };
   }
 
+  const fromAddress = (process.env.EMAIL_FROM || '').trim();
+  const from = fromAddress && fromAddress.includes('@')
+    ? fromAddress
+    : gmailUser;
+
   try {
-    const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'SaaS Starter <onboarding@resend.dev>',
+    const info = await transporter.sendMail({
+      from,
       to,
       subject,
       text,
       html: html || text,
+      replyTo: gmailUser,
     });
-    
-    console.log('Email sent:', data.id);
-    return data;
+
+    console.log('Email sent:', info.messageId);
+    return info;
   } catch (error) {
     console.error('Failed to send email:', error);
+    console.error('Nodemailer payload:', { from, to, subject });
     throw error;
   }
 };
