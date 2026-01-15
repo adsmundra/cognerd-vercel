@@ -8,7 +8,7 @@ const protectedRoutes = ['/dashboard', '/chat', '/brand-monitor', '/profile', '/
 const authRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
 const apiRoutes = ['/api/auth'];
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   
   // Skip middleware for auth routes and API routes

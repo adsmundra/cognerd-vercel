@@ -2,11 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Plus, Search, Trash2, ExternalLink, Globe, MapPin, Building2, ChevronDown, Check } from 'lucide-react';
+import { Loader2, Plus, Search, Trash2, ExternalLink, Globe, MapPin, Building2 } from 'lucide-react';
 import Link from 'next/link';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
 
 interface BrandProfile {
   id: string;
@@ -19,7 +17,6 @@ interface BrandProfile {
   favicon?: string;
   description?: string;
   isScraped?: boolean;
-  creatorEmail?: string;
 }
 
 export default function BrandProfilesPage() {
@@ -28,10 +25,6 @@ export default function BrandProfilesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedIndustry, setSelectedIndustry] = useState('All');
-  const [industrySearch, setIndustrySearch] = useState('');
-  const [isIndustryOpen, setIsIndustryOpen] = useState(false);
-  const [industries, setIndustries] = useState<string[]>([]);
   const [filteredBrands, setFilteredBrands] = useState<BrandProfile[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,34 +68,21 @@ export default function BrandProfilesPage() {
   };
 
   useEffect(() => {
-    if (brands.length > 0) {
-      const uniqueIndustries = Array.from(new Set(brands.map(b => b.industry))).sort();
-      setIndustries(uniqueIndustries);
-    }
-  }, [brands]);
-
-  useEffect(() => {
-    let result = brands;
-
-    // Filter by industry
-    if (selectedIndustry !== 'All') {
-      result = result.filter(brand => brand.industry === selectedIndustry);
-    }
-
-    // Filter by search query
-    if (searchQuery.trim() !== '') {
+    if (searchQuery.trim() === '') {
+      setFilteredBrands(brands);
+    } else {
       const query = searchQuery.toLowerCase();
-      result = result.filter(
-        (brand) =>
-          brand.name.toLowerCase().includes(query) ||
-          brand.industry.toLowerCase().includes(query) ||
-          brand.url.toLowerCase().includes(query) ||
-          brand.location.toLowerCase().includes(query)
+      setFilteredBrands(
+        brands.filter(
+          (brand) =>
+            brand.name.toLowerCase().includes(query) ||
+            brand.industry.toLowerCase().includes(query) ||
+            brand.url.toLowerCase().includes(query) ||
+            brand.location.toLowerCase().includes(query)
+        )
       );
     }
-
-    setFilteredBrands(result);
-  }, [searchQuery, selectedIndustry, brands]);
+  }, [searchQuery, brands]);
 
   const handleDelete = (brandId: string, brandName: string) => {
     setBrandToDelete({ id: brandId, name: brandName });
@@ -248,97 +228,17 @@ export default function BrandProfilesPage() {
 
         {/* Search & Filters */}
         {brands.length > 0 && (
-          <div className="flex flex-col sm:flex-row gap-4 max-w-2xl">
-            <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-slate-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Search brands..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm hover:shadow-md"
-              />
+          <div className="relative max-w-xl">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-slate-400" />
             </div>
-            
-            <div className="min-w-[250px]">
-              <Popover open={isIndustryOpen} onOpenChange={setIsIndustryOpen}>
-                <PopoverTrigger asChild>
-                  <button
-                    role="combobox"
-                    aria-expanded={isIndustryOpen}
-                    className="w-full flex items-center justify-between px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm hover:shadow-md text-left"
-                  >
-                    <span className={cn("block truncate", selectedIndustry === 'All' && "text-slate-500")}>
-                      {selectedIndustry === 'All' ? 'All Industries' : selectedIndustry}
-                    </span>
-                    <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[250px] p-0 bg-white" align="start">
-                  <div className="p-2 border-b border-slate-100">
-                    <input
-                      type="text"
-                      placeholder="Search industry..."
-                      value={industrySearch}
-                      onChange={(e) => setIndustrySearch(e.target.value)}
-                      className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                    />
-                  </div>
-                  <div className="max-h-[300px] overflow-y-auto custom-scrollbar p-1">
-                    <div
-                      className={cn(
-                        "relative flex cursor-pointer select-none items-center rounded-lg px-2 py-2 text-sm outline-none transition-colors hover:bg-slate-100",
-                        selectedIndustry === 'All' ? "text-blue-600 bg-blue-50 font-medium" : "text-slate-700"
-                      )}
-                      onClick={() => {
-                        setSelectedIndustry('All');
-                        setIsIndustryOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          selectedIndustry === 'All' ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      All Industries
-                    </div>
-                    {industries
-                      .filter((industry) =>
-                        industry.toLowerCase().includes(industrySearch.toLowerCase())
-                      )
-                      .map((industry) => (
-                        <div
-                          key={industry}
-                          className={cn(
-                            "relative flex cursor-pointer select-none items-center rounded-lg px-2 py-2 text-sm outline-none transition-colors hover:bg-slate-100",
-                            selectedIndustry === industry ? "text-blue-600 bg-blue-50 font-medium" : "text-slate-700"
-                          )}
-                          onClick={() => {
-                            setSelectedIndustry(industry);
-                            setIsIndustryOpen(false);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              selectedIndustry === industry ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                          {industry}
-                        </div>
-                      ))}
-                      {industries.filter(i => i.toLowerCase().includes(industrySearch.toLowerCase())).length === 0 && (
-                        <div className="py-6 text-center text-sm text-slate-500">
-                          No industry found.
-                        </div>
-                      )}
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
+            <input
+              type="text"
+              placeholder="Search brands..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="block w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm hover:shadow-md"
+            />
           </div>
         )}
 
@@ -404,11 +304,6 @@ export default function BrandProfilesPage() {
                       <Building2 className="w-3.5 h-3.5" />
                       {brand.industry}
                     </p>
-                    {brand.creatorEmail && (
-                      <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 mt-2">
-                        Created by: {brand.creatorEmail}
-                      </span>
-                    )}
                   </div>
                   
                   <div className="flex flex-wrap gap-2">
