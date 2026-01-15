@@ -17,9 +17,12 @@ export async function GET(request: NextRequest) {
       throw new AuthenticationError('Please log in to view your analyses');
     }
 
+    const superuserEmails = (process.env.SUPERUSER_EMAILS || '').split(',').map(e => e.trim());
+    const isSuperuser = sessionResponse.user.email && superuserEmails.includes(sessionResponse.user.email);
+
     const analyses = await executeWithRetry(async () => {
       return await db.query.brandAnalyses.findMany({
-        where: eq(brandAnalyses.userId, sessionResponse.user.id),
+        where: isSuperuser ? undefined : eq(brandAnalyses.userId, sessionResponse.user.id),
         orderBy: desc(brandAnalyses.createdAt),
       });
     });

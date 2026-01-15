@@ -17,8 +17,21 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ items: [] });
     }
 
-    const sql = `SELECT id, company_url as "companyUrl", brand_name as "brandName", topic as "topic", created_at as "createdAt" FROM blogs WHERE email_id = $1 ORDER BY created_at DESC LIMIT 100`;
-    const res = await pool.query(sql, [userEmail]);
+    const superuserEmails = (process.env.SUPERUSER_EMAILS || '').split(',').map(e => e.trim());
+    const isSuperuser = userEmail && superuserEmails.includes(userEmail);
+
+    let sql;
+    let params: any[];
+
+    if (isSuperuser) {
+      sql = `SELECT id, company_url as "companyUrl", brand_name as "brandName", topic as "topic", created_at as "createdAt" FROM blogs ORDER BY created_at DESC LIMIT 100`;
+      params = [];
+    } else {
+      sql = `SELECT id, company_url as "companyUrl", brand_name as "brandName", topic as "topic", created_at as "createdAt" FROM blogs WHERE email_id = $1 ORDER BY created_at DESC LIMIT 100`;
+      params = [userEmail];
+    }
+    
+    const res = await pool.query(sql, params);
 
     return NextResponse.json({ items: res.rows });
   } catch (e) {

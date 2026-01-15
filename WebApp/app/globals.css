@@ -520,3 +520,24 @@ html, body, #__next {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: rgba(148, 163, 184, 0.3);
 }
+
+/* Global Professional Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.2);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(148, 163, 184, 0.4);
+}

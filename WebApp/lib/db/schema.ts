@@ -9,6 +9,17 @@ export * from './schema.notifications';
 export const roleEnum = pgEnum('role', ['user', 'assistant']);
 export const themeEnum = pgEnum('theme', ['light', 'dark']);
 
+// Better Auth User table
+export const user = pgTable('user', {
+  id: text('id').primaryKey(),
+  name: text('name'),
+  email: text('email').notNull().unique(),
+  emailVerified: boolean('emailVerified').notNull(),
+  image: text('image'),
+  createdAt: timestamp('createdAt').notNull(),
+  updatedAt: timestamp('updatedAt').notNull(),
+});
+
 // User Profile table - extends Better Auth user with additional fields
 export const userProfile = pgTable('user_profile', {
   id: uuid('id').primaryKey().defaultRandom(),

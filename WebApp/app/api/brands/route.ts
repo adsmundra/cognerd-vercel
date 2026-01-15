@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { brandprofile } from '@/lib/db/schema';
+import { brandprofile, user } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
@@ -18,11 +18,33 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Fetch all brands for the current user
-    const brands = await db
-      .select()
-      .from(brandprofile)
-      .where(eq(brandprofile.userId, session.user.id));
+    // Check for superuser access
+    const superuserEmails = (process.env.SUPERUSER_EMAILS || '').split(',').map(e => e.trim());
+    const isSuperuser = session.user.email && superuserEmails.includes(session.user.email);
+
+    let brands;
+
+    if (isSuperuser) {
+      // Superuser: Fetch all brands with creator email
+      const brandsData = await db
+        .select({
+          brand: brandprofile,
+          creatorEmail: user.email
+        })
+        .from(brandprofile)
+        .leftJoin(user, eq(brandprofile.userId, user.id));
+      
+      brands = brandsData.map(row => ({
+        ...row.brand,
+        creatorEmail: row.creatorEmail
+      }));
+    } else {
+      // Regular user: Fetch only their brands
+      brands = await db
+        .select()
+        .from(brandprofile)
+        .where(eq(brandprofile.userId, session.user.id));
+    }
 
     return NextResponse.json({
       brands: brands || [],

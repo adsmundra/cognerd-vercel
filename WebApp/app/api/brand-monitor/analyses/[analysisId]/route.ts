@@ -21,11 +21,16 @@ export async function GET(
 
     const { analysisId } = await params;
 
+    const superuserEmails = (process.env.SUPERUSER_EMAILS || '').split(',').map(e => e.trim());
+    const isSuperuser = sessionResponse.user.email && superuserEmails.includes(sessionResponse.user.email);
+
     const analysis = await db.query.brandAnalyses.findFirst({
-      where: and(
-        eq(brandAnalyses.id, analysisId),
-        eq(brandAnalyses.userId, sessionResponse.user.id)
-      ),
+      where: isSuperuser 
+        ? eq(brandAnalyses.id, analysisId)
+        : and(
+            eq(brandAnalyses.id, analysisId),
+            eq(brandAnalyses.userId, sessionResponse.user.id)
+          ),
     });
 
     if (!analysis) {

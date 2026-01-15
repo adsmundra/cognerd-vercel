@@ -3,11 +3,20 @@
 SOURCE_DIR="/Users/aman/Welzin/Dev/cognerd"
 TARGET_DIR="/Users/aman/Welzin/Dev/cognerd-vercel"
 
-# credzin git push
+# Navigate to the source directory and pull the latest changes
+cd "$SOURCE_DIR" || { echo "Failed to change directory to $SOURCE_DIR. Exiting."; exit 1; }
+echo "Pulling latest changes in $SOURCE_DIR..."
+git pull
+
+# CogNerd git push
 git add .
 COMMIT_MESSAGE="Aman:Code Edits & Features: $(date '+%Y-%m-%d %H:%M:%S')"
 git commit -m "$COMMIT_MESSAGE"
 git push
+
+# Navigate back to the original directory
+cd - > /dev/null
+
 
 # Sync the directories
 echo "Syncing $SOURCE_DIR to $TARGET_DIR..."
